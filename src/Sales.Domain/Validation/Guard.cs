@@ -1,3 +1,5 @@
+using Sales.Domain.Common.Exceptions;
+
 namespace Sales.Domain.Validation;
 
 public static class Guard
@@ -6,14 +8,21 @@ public static class Guard
     {
         if (value == Guid.Empty)
         {
-            throw new ArgumentException($"'{parameterName}' cannot be an empty GUID.", parameterName);
+            throw new DomainException($"'{parameterName}' cannot be an empty GUID.");
         }
     }
     public static void AgainstNull<T>(T value, string parameterName) where T : class
     {
         if (value == null)
         {
-            throw new ArgumentNullException(parameterName, $"'{parameterName}' cannot be null.");
+            throw new DomainException($"'{parameterName}' cannot be null.");
+        }
+    }
+    public static void AgainstNullOrWhitespace(string value, string parameterName)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            throw new DomainException($"'{parameterName}' cannot be null or whitespace.");
         }
     }
     public static void Against<TException>(bool condition, string message) where TException : Exception
