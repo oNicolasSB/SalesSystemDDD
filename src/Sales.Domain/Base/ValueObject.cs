@@ -20,4 +20,17 @@ public abstract class ValueObject
             .Select(x => x != null ? x.GetHashCode() : 0)
                 .Aggregate((x, y) => x ^ y);
     }
+
+    public static bool operator ==(ValueObject left, ValueObject right)
+    {
+        if (left is null)
+            return right is null;
+
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(ValueObject left, ValueObject right)
+    {
+        return !(left == right);
+    }
 }
