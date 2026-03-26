@@ -1,4 +1,3 @@
-using FluentAssertions;
 using Sales.Domain.Common.Exceptions;
 using Sales.Domain.ValueObjects;
 
@@ -91,8 +90,9 @@ public class DeliveryAddressTests
         };
 
         // Assert
-        address.GetType().GetProperties().All(p => p.SetMethod == null)
-            .Should().BeTrue("All properties should be read-only to ensure immutability.");
+
+        address.GetType().GetFields().All(f => f.IsInitOnly)
+            .Should().BeTrue("All fields should be readonly to ensure immutability.");
     }
 
     [Theory(DisplayName = "Should throw a DomainException when required fields are null or whitespace")]
