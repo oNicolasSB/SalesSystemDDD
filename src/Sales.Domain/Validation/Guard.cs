@@ -18,7 +18,7 @@ public static class Guard
             throw new DomainException($"'{parameterName}' cannot be null.");
         }
     }
-    public static void AgainstNullOrWhitespace(string value, string parameterName)
+    public static void AgainstNullOrWhitespace(string? value, string parameterName)
     {
         if (string.IsNullOrWhiteSpace(value))
         {

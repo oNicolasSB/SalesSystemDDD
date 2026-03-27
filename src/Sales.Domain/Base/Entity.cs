@@ -1,3 +1,5 @@
+using Sales.Domain.Events;
+
 namespace Sales.Domain.Base;
 
 public abstract class Entity
@@ -51,4 +53,18 @@ public abstract class Entity
     {
         return !(left == right);
     }
+
+    private readonly List<IDomainEvent> _domainEvents = [];
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+
+    protected void AddDomainEvent(IDomainEvent domainEvent)
+    {
+        _domainEvents.Add(domainEvent);
+    }
+    protected void RemoveDomainEvent(IDomainEvent domainEvent)
+    {
+        _domainEvents.Remove(domainEvent);
+    }
+
+    protected void ClearDomainEvents() => _domainEvents.Clear();
 }
