@@ -18,6 +18,13 @@ public static class Guard
             throw new DomainException($"'{parameterName}' cannot be null.");
         }
     }
+    public static void AgainstNull<T>(T value, string parameterName, string message) where T : class
+    {
+        if (value == null)
+        {
+            throw new DomainException(message);
+        }
+    }
     public static void AgainstNullOrWhitespace(string? value, string parameterName)
     {
         if (string.IsNullOrWhiteSpace(value))

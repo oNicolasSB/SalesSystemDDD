@@ -13,7 +13,7 @@ public sealed class OrderItem : Entity
     public decimal AppliedDiscount { get; private set; }
     public decimal TotalPrice { get; private set; }
 
-    internal OrderItem(Guid productId, string productName, decimal unitPrice, int quantity, decimal appliedDiscount)
+    internal OrderItem(Guid productId, string productName, decimal unitPrice, int quantity, decimal appliedDiscount = 0m)
     {
         Guard.AgainstEmptyGuid(productId, nameof(productId));
         Guard.AgainstNullOrWhitespace(productName, nameof(productName));
