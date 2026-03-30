@@ -1,6 +1,6 @@
-using Sales.Domain.Base;
+using Sales.Domain.Common.Base;
 
-namespace Sales.Domain.ValueObjects;
+namespace Sales.Domain.Orders.ValueObjects;
 
 public sealed class CancelReason : ValueObject
 {

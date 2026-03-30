@@ -1,9 +1,9 @@
 using System.Text.RegularExpressions;
-using Sales.Domain.Base;
+using Sales.Domain.Common.Base;
 using Sales.Domain.Common.Exceptions;
-using Sales.Domain.Validation;
+using Sales.Domain.Common.Validation;
 
-namespace Sales.Domain.ValueObjects;
+namespace Sales.Domain.Orders.ValueObjects;
 
 public class DeliveryAddress : ValueObject
 {

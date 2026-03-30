@@ -1,4 +1,6 @@
-namespace Sales.Domain.Events;
+using Sales.Domain.Common.Base;
+
+namespace Sales.Domain.Orders.Events;
 
 public record PaymentRejectedEvent(
     Guid PaymentId,

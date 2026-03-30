@@ -1,4 +1,4 @@
-namespace Sales.Domain.Base;
+namespace Sales.Domain.Common.Base;
 
 public class AggregateRoot : Entity
 {

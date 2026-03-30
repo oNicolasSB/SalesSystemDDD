@@ -1,8 +1,8 @@
-using Sales.Domain.Base;
+using Sales.Domain.Common.Base;
 using Sales.Domain.Common.Exceptions;
-using Sales.Domain.Validation;
+using Sales.Domain.Common.Validation;
 
-namespace Sales.Domain.Entities;
+namespace Sales.Domain.Orders.Entities;
 
 public sealed class OrderItem : Entity
 {

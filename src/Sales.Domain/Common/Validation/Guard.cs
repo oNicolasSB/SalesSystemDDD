@@ -1,6 +1,6 @@
 using Sales.Domain.Common.Exceptions;
 
-namespace Sales.Domain.Validation;
+namespace Sales.Domain.Common.Validation;
 
 public static class Guard
 {

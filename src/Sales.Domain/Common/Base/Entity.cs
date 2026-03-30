@@ -1,6 +1,6 @@
-using Sales.Domain.Events;
+using Sales.Domain.Common.Interfaces;
 
-namespace Sales.Domain.Base;
+namespace Sales.Domain.Common.Base;
 
 public abstract class Entity
 {
