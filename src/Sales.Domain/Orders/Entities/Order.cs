@@ -1,9 +1,10 @@
 using Sales.Domain.Common.Base;
-using Sales.Domain.Common.Enums;
 using Sales.Domain.Common.Exceptions;
 using Sales.Domain.Orders.Events;
 using Sales.Domain.Orders.ValueObjects;
 using Sales.Domain.Common.Validation;
+using Sales.Domain.Orders.Enums;
+using Sales.Domain.Clients.Enums;
 
 namespace Sales.Domain.Orders.Entities;
 

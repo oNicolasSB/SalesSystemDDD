@@ -1,9 +1,9 @@
-using Sales.Domain.Common.Enums;
 using Sales.Domain.Common.Exceptions;
 using Sales.Domain.Orders.Entities;
+using Sales.Domain.Orders.Enums;
 using Sales.Domain.Orders.Events;
 
-namespace Sales.Domain.Tests.Entities;
+namespace Sales.Domain.Tests.Orders.Entities;
 
 public class PaymentTests
 {

@@ -1,7 +1,7 @@
 using Sales.Domain.Common.Exceptions;
 using Sales.Domain.Orders.Entities;
 
-namespace Sales.Domain.Tests.Entities;
+namespace Sales.Domain.Tests.Orders.Entities;
 
 public class OrderItemTests
 {

@@ -1,4 +1,4 @@
-namespace Sales.Domain.Common.Enums;
+namespace Sales.Domain.Orders.Enums;
 
 public enum PaymentStatus
 {
