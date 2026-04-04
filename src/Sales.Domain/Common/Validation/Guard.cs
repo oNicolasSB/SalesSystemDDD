@@ -11,7 +11,7 @@ public static class Guard
             throw new DomainException($"'{parameterName}' cannot be an empty GUID.");
         }
     }
-    public static void AgainstNull<T>(T value, string parameterName) where T : class
+    public static void AgainstNull<T>(T? value, string parameterName) where T : class
     {
         if (value == null)
         {

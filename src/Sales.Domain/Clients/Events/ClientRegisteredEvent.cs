@@ -4,6 +4,6 @@ namespace Sales.Domain.Clients.Events;
 
 public sealed record ClientRegisteredEvent(
     Guid ClientId,
-    string Nome,
+    string Name,
     string Cpf,
     string Email) : DomainEventBase;
