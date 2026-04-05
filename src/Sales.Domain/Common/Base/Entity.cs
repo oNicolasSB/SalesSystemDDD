@@ -61,10 +61,10 @@ public abstract class Entity
     {
         _domainEvents.Add(domainEvent);
     }
-    protected void RemoveDomainEvent(IDomainEvent domainEvent)
+    public void RemoveDomainEvent(IDomainEvent domainEvent)
     {
         _domainEvents.Remove(domainEvent);
     }
 
-    protected void ClearDomainEvents() => _domainEvents.Clear();
+    public void ClearDomainEvents() => _domainEvents.Clear();
 }

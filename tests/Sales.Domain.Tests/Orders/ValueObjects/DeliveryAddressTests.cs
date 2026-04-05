@@ -1,7 +1,7 @@
 using Sales.Domain.Common.Exceptions;
 using Sales.Domain.Orders.ValueObjects;
 
-namespace Sales.Domain.Tests.ValueObjects;
+namespace Sales.Domain.Tests.Orders.ValueObjects;
 
 public class DeliveryAddressTests
 {
