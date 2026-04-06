@@ -59,7 +59,7 @@ public sealed class Order : AggregateRoot
         UpdateDate();
     }
 
-    public void RemoveOrderItem(Guid productId, int quantity)
+    public void RemoveOrderItem(Guid productId)
     {
         Guard.AgainstEmptyGuid(productId, nameof(productId));
         Guard.Against<DomainException>(
@@ -71,8 +71,8 @@ public sealed class Order : AggregateRoot
         if (existingItem == null)
             throw new DomainException("Product not found in the order.");
 
-        Guard.Against<DomainException>(quantity <= 0, $"{nameof(quantity)} must be greater than zero.");
-        existingItem.RemoveUnits(quantity);
+        Guard.Against<DomainException>(_orderItems.Count <= 0, "Order must have at least one item.");
+        _orderItems.Remove(existingItem);
 
         RecalculateTotalValue();
         UpdateDate();

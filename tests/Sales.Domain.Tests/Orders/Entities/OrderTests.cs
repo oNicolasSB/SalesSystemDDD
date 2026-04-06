@@ -140,7 +140,7 @@ public class OrderTests
         SetOrderStatus(order, status);
 
         // Act
-        Action act = () => order.RemoveOrderItem(ValidProductId, 1);
+        Action act = () => order.RemoveOrderItem(ValidProductId);
 
         // Assert
         act.Should().Throw<DomainException>()
@@ -156,13 +156,11 @@ public class OrderTests
         order.AddOrderItem(ValidProductId, "Product Name", 10.0m, 5);
 
         // Act
-        order.RemoveOrderItem(ValidProductId, 2);
+        order.RemoveOrderItem(ValidProductId);
 
         // Assert
-        order.OrderItems.Should().HaveCount(1);
-        OrderItem item = order.OrderItems.First();
-        item.Quantity.Should().Be(3);
-        item.TotalPrice.Should().Be(30.0m);
+        order.OrderItems.Should().HaveCount(0);
+        order.TotalValue.Should().Be(0);
     }
 
     #region Delivery Address Tests
