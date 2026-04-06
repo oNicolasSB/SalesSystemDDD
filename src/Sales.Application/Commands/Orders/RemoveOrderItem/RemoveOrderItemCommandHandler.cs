@@ -1,4 +1,5 @@
 using Sales.Application.Abstractions.Persistence;
+using Sales.Domain.Common.Exceptions;
 
 namespace Sales.Application.Commands.Orders.RemoveOrderItem;
 
@@ -15,7 +16,7 @@ public sealed class RemoveOrderItemCommandHandler
     {
         var order = await _orderRepository.GetByIdAsync(command.OrderId, cancellationToken);
         if (order is null)
-            throw new InvalidOperationException("Order not found.");
+            throw new DomainException("Order not found.");
 
         order.RemoveOrderItem(command.ItemId);
 

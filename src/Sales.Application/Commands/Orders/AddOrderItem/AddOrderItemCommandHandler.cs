@@ -1,4 +1,5 @@
 using Sales.Application.Abstractions.Persistence;
+using Sales.Domain.Common.Exceptions;
 
 namespace Sales.Application.Commands.Orders.AddOrderItem;
 
@@ -17,7 +18,7 @@ public class AddOrderItemCommandHandler
 
         if (order is null)
         {
-            throw new InvalidOperationException($"Order not found.");
+            throw new DomainException($"Order not found.");
         }
 
         order.AddOrderItem(command.ProductId, command.ProductName, command.UnitPrice, command.Quantity);

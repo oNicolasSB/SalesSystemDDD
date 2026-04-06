@@ -15,7 +15,7 @@ public sealed class CancelReason : ValueObject
         {"OTHER" , "Other reason"},
     };
 
-    private CancelReason(string code)
+    public CancelReason(string code)
     {
         if (string.IsNullOrWhiteSpace(code))
             throw new ArgumentException("Cancel reason code cannot be null or empty.", nameof(code));
