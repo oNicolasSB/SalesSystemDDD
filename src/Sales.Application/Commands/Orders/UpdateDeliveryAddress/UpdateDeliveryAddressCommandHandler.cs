@@ -1,32 +1,31 @@
 using Sales.Application.Abstractions.Persistence;
 
-namespace Sales.Application.Commands.Orders.RemoveOrderItem;
+namespace Sales.Application.Commands.Orders.UpdateDeliveryAddress;
 
-public sealed class RemoveOrderItemCommandHandler
+public class UpdateDeliveryAddressCommandHandler
 {
     private readonly IOrderRepository _orderRepository;
 
-    public RemoveOrderItemCommandHandler(IOrderRepository orderRepository)
+    public UpdateDeliveryAddressCommandHandler(IOrderRepository orderRepository)
     {
         _orderRepository = orderRepository;
     }
 
-    public async Task<RemoveOrderItemResultDto> Handle(RemoveOrderItemCommand command, CancellationToken cancellationToken = default)
+
+    public async Task<UpdateDeliveryAddressResultDto> Handle(UpdateDeliveryAddressCommand command, CancellationToken cancellationToken = default)
     {
         var order = await _orderRepository.GetByIdAsync(command.OrderId, cancellationToken);
         if (order is null)
             throw new InvalidOperationException("Order not found.");
 
-        order.RemoveOrderItem(command.ItemId);
+        order.UpdateDeliveryAddress(command.NewDeliveryAddress);
 
         await _orderRepository.UpdateAsync(order, cancellationToken);
 
-
-        return new RemoveOrderItemResultDto(
+        return new UpdateDeliveryAddressResultDto(
             order.Id,
-            order.TotalValue,
+            order.DeliveryAddress.ToString()!,
             order.OrderStatus.ToString()
             );
     }
-
 }

@@ -12,7 +12,7 @@ public sealed class CreateOrderCommandHandler
         _orderRepository = orderRepository;
     }
 
-    public async Task<CreateOrderResultDto> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
+    public async Task<CreateOrderResultDto> Handle(CreateOrderCommand command, CancellationToken cancellationToken = default)
     {
         var order = Order.Create(command.ClientId, command.DeliveryAddress);
 

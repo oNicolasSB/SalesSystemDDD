@@ -11,7 +11,7 @@ public class AddOrderItemCommandHandler
         _orderRepository = orderRepository;
     }
 
-    public async Task<AddOrderItemResultDto> Handle(AddOrderItemCommand command, CancellationToken cancellationToken)
+    public async Task<AddOrderItemResultDto> Handle(AddOrderItemCommand command, CancellationToken cancellationToken = default)
     {
         var order = await _orderRepository.GetByIdAsync(command.OrderId, cancellationToken);
 
