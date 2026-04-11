@@ -9,21 +9,23 @@ public class DeliveryAddress : ValueObject
 {
     public string Cep { get; private set; } = string.Empty;
     public string Street { get; private set; } = string.Empty;
+    public string Number { get; private set; } = string.Empty;
     public string Complement { get; private set; } = string.Empty;
     public string Neighborhood { get; private set; } = string.Empty;
     public string City { get; private set; } = string.Empty;
     public string State { get; private set; } = string.Empty;
     public string Country { get; private set; } = string.Empty;
 
-    public static DeliveryAddress Create(string cep, string street, string complement, string neighborhood, string city, string state, string country)
+    public static DeliveryAddress Create(string cep, string street, string number, string complement, string neighborhood, string city, string state, string country)
     {
-        return new DeliveryAddress(cep, street, complement, neighborhood, city, state, country);
+        return new DeliveryAddress(cep, street, number, complement, neighborhood, city, state, country);
     }
 
-    private DeliveryAddress(string cep, string street, string complement, string neighborhood, string city, string state, string country)
+    private DeliveryAddress(string cep, string street, string number, string complement, string neighborhood, string city, string state, string country)
     {
         Guard.AgainstNullOrWhitespace(cep, nameof(cep));
         Guard.AgainstNullOrWhitespace(street, nameof(street));
+        Guard.AgainstNullOrWhitespace(number, nameof(number));
         Guard.AgainstNullOrWhitespace(neighborhood, nameof(neighborhood));
         Guard.AgainstNullOrWhitespace(city, nameof(city));
         Guard.AgainstNullOrWhitespace(state, nameof(state));
@@ -36,6 +38,7 @@ public class DeliveryAddress : ValueObject
 
         Cep = cep;
         Street = street;
+        Number = number;
         Complement = complement;
         Neighborhood = neighborhood;
         City = city;
@@ -53,6 +56,7 @@ public class DeliveryAddress : ValueObject
     {
         yield return Cep;
         yield return Street;
+        yield return Number;
         yield return Complement;
         yield return Neighborhood;
         yield return City;
@@ -60,5 +64,5 @@ public class DeliveryAddress : ValueObject
         yield return Country;
     }
 
-    public string FullAddress => $"{Street}, {Neighborhood}, {City} - {State}, {Country}, CEP: {Cep}";
+    public string FullAddress => $"{Street}, {Number}, {Neighborhood}, {City} - {State}, {Country}, CEP: {Cep}";
 }

@@ -11,7 +11,7 @@ namespace Sales.Domain.Tests.Orders.Entities;
 public class OrderTests
 {
     private static DeliveryAddress CreateValidDeliveryAddress() =>
-        DeliveryAddress.Create("12345-678", "123 Main St", "complement", "Neighbourhood", "City", "State", "Country");
+        DeliveryAddress.Create("12345-678", "Main St", "123", "complement", "Neighbourhood", "City", "State", "Country");
 
     private static readonly Guid ValidClientId = Guid.NewGuid();
     private static readonly Guid ValidProductId = Guid.NewGuid();
