@@ -54,14 +54,6 @@ public sealed class OrderItem : Entity
         UpdateDate();
     }
 
-    public void UpdateUnitPrice(decimal newUnitPrice)
-    {
-        Guard.Against<DomainException>(newUnitPrice <= 0, $"{nameof(newUnitPrice)} must be greater than zero.");
-        UnitPrice = newUnitPrice;
-        TotalPrice = CalculateTotalPrice();
-        UpdateDate();
-    }
-
     private decimal CalculateTotalPrice()
     {
         return (UnitPrice * Quantity) - AppliedDiscount;
