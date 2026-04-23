@@ -181,9 +181,13 @@ public sealed class Order : AggregateRoot
 
     public void CancelOrder(CancelReason? reason = null)
     {
+        // Guard.Against<DomainException>(
+        //     OrderStatus >= OrderStatus.InPreparation,
+        //     "Cannot cancel an order that is under preparation or already processed."
+        // );
         Guard.Against<DomainException>(
-            OrderStatus >= OrderStatus.InPreparation,
-            "Cannot cancel an order that is under preparation or already processed."
+            OrderStatus > OrderStatus.Pending,
+            "Only pending orders can be canceled."
         );
 
         OrderStatus = OrderStatus.Canceled;
