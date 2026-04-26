@@ -12,7 +12,7 @@ public sealed class MarkAsDeliveredCommandHandler
         _orderRepository = orderRepository;
     }
 
-    public async Task<MarkAsShippedResultDto> Handle(MarkAsDeliveredCommand command, CancellationToken cancellationToken)
+    public async Task<MarkAsShippedResultDto> HandleAsync(MarkAsDeliveredCommand command, CancellationToken cancellationToken)
     {
         var order = await _orderRepository.GetByIdAsync(command.OrderId, cancellationToken);
 

@@ -12,6 +12,7 @@ public class DeliveryAddressTests
         // Arrange
         string cep = "12345-678";
         string street = "Street";
+        string number = "123";
         string complement = "Complement";
         string neighborhood = "Neighborhood";
         string city = "City";
@@ -19,18 +20,19 @@ public class DeliveryAddressTests
         string country = "Country";
 
         // Act
-        DeliveryAddress deliveryAddress = DeliveryAddress.Create(cep, street, complement, neighborhood, city, state, country);
+        DeliveryAddress deliveryAddress = DeliveryAddress.Create(cep, street, number, complement, neighborhood, city, state, country);
 
         // Assert
         deliveryAddress.Should().NotBeNull();
         deliveryAddress.Cep.Should().Be(cep);
         deliveryAddress.Street.Should().Be(street);
+        deliveryAddress.Number.Should().Be(number);
         deliveryAddress.Complement.Should().Be(complement);
         deliveryAddress.Neighborhood.Should().Be(neighborhood);
         deliveryAddress.City.Should().Be(city);
         deliveryAddress.State.Should().Be(state);
         deliveryAddress.Country.Should().Be(country);
-        deliveryAddress.FullAddress.Should().Be($"{street}, {neighborhood}, {city} - {state}, {country}, CEP: {cep}");
+        deliveryAddress.FullAddress.Should().Be($"{street}, {number}, {neighborhood}, {city} - {state}, {country}, CEP: {cep}");
     }
 
     [Theory(DisplayName = "Create should throw DomainException when CEP is invalid")]
@@ -42,6 +44,7 @@ public class DeliveryAddressTests
     {
         // Arrange
         string street = "Street";
+        string number = "123";
         string complement = "Complement";
         string neighborhood = "Neighborhood";
         string city = "City";
@@ -49,7 +52,7 @@ public class DeliveryAddressTests
         string country = "Country";
 
         // Act
-        Action act = () => DeliveryAddress.Create(invalidCep, street, complement, neighborhood, city, state, country);
+        Action act = () => DeliveryAddress.Create(invalidCep, street, number, complement, neighborhood, city, state, country);
 
         // Assert
         act.Should().Throw<DomainException>().WithMessage($"'{invalidCep}' is not a valid CEP format.");
@@ -59,8 +62,8 @@ public class DeliveryAddressTests
     public void Equals_ShouldReturnTrue_ForSameValues()
     {
         // Arrange
-        var address1 = DeliveryAddress.Create("12345-678", "Street", "Complement", "Neighborhood", "City", "State", "Country");
-        var address2 = DeliveryAddress.Create("12345-678", "Street", "Complement", "Neighborhood", "City", "State", "Country");
+        var address1 = DeliveryAddress.Create("12345-678", "Street", "123", "Complement", "Neighborhood", "City", "State", "Country");
+        var address2 = DeliveryAddress.Create("12345-678", "Street", "123", "Complement", "Neighborhood", "City", "State", "Country");
 
         // Act & Assert
         address1.Should().Be(address2);
@@ -70,8 +73,8 @@ public class DeliveryAddressTests
     public void Equals_ShouldReturnFalse_ForDifferentValues()
     {
         // Arrange
-        var address1 = DeliveryAddress.Create("12345-678", "Street", "Complement", "Neighborhood", "City", "State", "Country");
-        var address2 = DeliveryAddress.Create("87654-321", "Another Street", "Another Complement", "Another Neighborhood", "Another City", "Another State", "Another Country");
+        var address1 = DeliveryAddress.Create("12345-678", "Street", "123", "Complement", "Neighborhood", "City", "State", "Country");
+        var address2 = DeliveryAddress.Create("87654-321", "Another Street", "321", "Another Complement", "Another Neighborhood", "Another City", "Another State", "Another Country");
 
         // Act & Assert
         address1.Should().NotBe(address2);
@@ -81,7 +84,7 @@ public class DeliveryAddressTests
     public void DeliveryAddress_ShouldBeImmutable()
     {
         // Arrange
-        var address = DeliveryAddress.Create("12345-678", "Street", "Complement", "Neighborhood", "City", "State", "Country");
+        var address = DeliveryAddress.Create("12345-678", "Street", "123", "Complement", "Neighborhood", "City", "State", "Country");
 
         // Act
         Action act = () =>
@@ -96,13 +99,13 @@ public class DeliveryAddressTests
     }
 
     [Theory(DisplayName = "Should throw a DomainException when required fields are null or whitespace")]
-    [InlineData(null, "Street", "Complement", "Neighborhood", "City", "State", "Country", "cep")]
-    [InlineData("12345-678", null, "Complement", "Neighborhood", "City", "State", "Country", "street")]
-    [InlineData("12345-678", "Street", "Complement", "Neighborhood", "City", "State", null, "country")]
-    public void Create_ShouldThrowDomainException_WhenRequiredFieldsAreNullOrWhitespace(string cep, string street, string complement, string neighborhood, string city, string state, string country, string parameterName)
+    [InlineData(null, "Street", "123", "Complement", "Neighborhood", "City", "State", "Country", "cep")]
+    [InlineData("12345-678", null, "123", "Complement", "Neighborhood", "City", "State", "Country", "street")]
+    [InlineData("12345-678", "Street", "123", "Complement", "Neighborhood", "City", "State", null, "country")]
+    public void Create_ShouldThrowDomainException_WhenRequiredFieldsAreNullOrWhitespace(string cep, string street, string number, string complement, string neighborhood, string city, string state, string country, string parameterName)
     {
         // Act
-        Action act = () => DeliveryAddress.Create(cep, street, complement, neighborhood, city, state, country);
+        Action act = () => DeliveryAddress.Create(cep, street, number, complement, neighborhood, city, state, country);
 
         // Assert
         act.Should().Throw<DomainException>().WithMessage($"'{parameterName}' cannot be null or whitespace.");

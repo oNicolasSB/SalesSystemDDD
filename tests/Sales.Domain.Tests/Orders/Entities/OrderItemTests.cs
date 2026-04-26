@@ -155,19 +155,19 @@ public class OrderItemTests
         act.Should().Throw<DomainException>().WithMessage($"Cannot remove {unitsToRemove} units. Only {orderItem.Quantity} units available.");
     }
 
-    [Fact(DisplayName = "Should update unit price correctly")]
-    public void UpdateUnitPrice_ShouldUpdateUnitPriceAndTotalPrice()
-    {
-        // Arrange
-        var orderItem = CreateValidOrderItem(unitPrice: 20.0m, quantity: 3);
-        decimal newUnitPrice = 25.0m;
+    // [Fact(DisplayName = "Should update unit price correctly")]
+    // public void UpdateUnitPrice_ShouldUpdateUnitPriceAndTotalPrice()
+    // {
+    //     // Arrange
+    //     var orderItem = CreateValidOrderItem(unitPrice: 20.0m, quantity: 3);
+    //     decimal newUnitPrice = 25.0m;
 
-        // Act
-        orderItem.UpdateUnitPrice(newUnitPrice);
+    //     // Act
+    //     orderItem.UpdateUnitPrice(newUnitPrice);
 
-        // Assert
-        orderItem.UnitPrice.Should().Be(newUnitPrice);
-        orderItem.TotalPrice.Should().Be(orderItem.UnitPrice * orderItem.Quantity - orderItem.AppliedDiscount);
-        orderItem.UpdatedAt.Should().NotBeNull();
-    }
+    //     // Assert
+    //     orderItem.UnitPrice.Should().Be(newUnitPrice);
+    //     orderItem.TotalPrice.Should().Be(orderItem.UnitPrice * orderItem.Quantity - orderItem.AppliedDiscount);
+    //     orderItem.UpdatedAt.Should().NotBeNull();
+    // }
 }

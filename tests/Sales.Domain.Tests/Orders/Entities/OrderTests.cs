@@ -11,7 +11,7 @@ namespace Sales.Domain.Tests.Orders.Entities;
 public class OrderTests
 {
     private static DeliveryAddress CreateValidDeliveryAddress() =>
-        DeliveryAddress.Create("12345-678", "123 Main St", "complement", "Neighbourhood", "City", "State", "Country");
+        DeliveryAddress.Create("12345-678", "Main St", "123", "complement", "Neighbourhood", "City", "State", "Country");
 
     private static readonly Guid ValidClientId = Guid.NewGuid();
     private static readonly Guid ValidProductId = Guid.NewGuid();
@@ -444,7 +444,6 @@ public class OrderTests
         // Arrange
         Order order = Order.Create(ValidClientId, CreateValidDeliveryAddress());
         order.AddOrderItem(ValidProductId, "Product Name", 10.0m, 2);
-        Payment payment = order.StartPayment(PaymentMethod.CreditCard);
 
         // Act
         order.CancelOrder(CancelReason.PaymentIssue);
@@ -456,24 +455,6 @@ public class OrderTests
             .Which.OrderId.Should().Be(order.Id);
     }
 
-    [Fact]
-    public void CancelOrder_ShouldUpdateOrderStatusToCanceled_WithConfirmedPayment()
-    {
-        // Arrange
-        Order order = Order.Create(ValidClientId, CreateValidDeliveryAddress());
-        order.AddOrderItem(ValidProductId, "Product Name", 10.0m, 2);
-        Payment payment = order.StartPayment(PaymentMethod.CreditCard);
-        order.HandlePaymentApproved(payment.Id);
-
-        // Act
-        order.CancelOrder(CancelReason.PaymentIssue);
-
-        // Assert
-        order.OrderStatus.Should().Be(OrderStatus.Canceled);
-        order.DomainEvents.Should().ContainSingle(e => e is OrderCanceledEvent)
-            .Which.Should().BeOfType<OrderCanceledEvent>()
-            .Which.OrderId.Should().Be(order.Id);
-    }
 
     [Fact(DisplayName = "Should throw DomainException when canceling order after preparation")]
     public void CancelOrder_WhenOrderIsAfterPreparation_ShouldThrowDomainException()
@@ -490,7 +471,7 @@ public class OrderTests
 
         // Assert
         act.Should().Throw<DomainException>()
-            .WithMessage("Cannot cancel an order that is under preparation or already processed.");
+            .WithMessage("Only pending orders can be canceled.");
     }
 
     #endregion

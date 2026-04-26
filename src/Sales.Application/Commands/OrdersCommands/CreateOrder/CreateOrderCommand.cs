@@ -5,11 +5,11 @@ namespace Sales.Application.Commands.OrdersCommands.CreateOrder;
 public sealed class CreateOrderCommand
 {
     public Guid ClientId { get; }
-    public DeliveryAddress DeliveryAddress { get; }
+    public Guid AddressId { get; }
 
-    public CreateOrderCommand(Guid clientId, DeliveryAddress deliveryAddress)
+    public CreateOrderCommand(Guid clientId, Guid addressId)
     {
         ClientId = clientId;
-        DeliveryAddress = deliveryAddress;
+        AddressId = addressId;
     }
 }

@@ -13,7 +13,7 @@ public sealed class StartPaymentCommandHandler
         _orderRepository = orderRepository;
     }
 
-    public async Task<StartPaymentResultDto> Handle(StartPaymentCommand command, CancellationToken cancellationToken = default)
+    public async Task<StartPaymentResultDto> HandleAsync(StartPaymentCommand command, CancellationToken cancellationToken = default)
     {
         var order = await _orderRepository.GetByIdAsync(command.OrderId, cancellationToken);
 
