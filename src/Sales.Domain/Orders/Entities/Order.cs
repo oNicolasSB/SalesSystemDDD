@@ -22,6 +22,8 @@ public sealed class Order : AggregateRoot
     private readonly List<Payment> _payments = [];
     public IReadOnlyCollection<Payment> Payments => _payments.AsReadOnly();
 
+    protected Order() { }
+
     private Order(Guid clientId, DeliveryAddress deliveryAddress)
     {
         Guard.AgainstEmptyGuid(clientId, nameof(clientId));
@@ -31,11 +33,15 @@ public sealed class Order : AggregateRoot
         DeliveryAddress = deliveryAddress;
         OrderStatus = OrderStatus.Pending;
         TotalValue = 0;
-        GenerateOrderNumber();
     }
 
-    public static Order Create(Guid clientId, DeliveryAddress deliveryAddress) =>
-        new(clientId, deliveryAddress);
+    public static Order Create(Guid clientId, DeliveryAddress deliveryAddress)
+    {
+
+        Order order = new(clientId, deliveryAddress);
+        order.GenerateOrderNumber();
+        return order;
+    }
 
     public void AddOrderItem(Guid productId, string productName, decimal unitPrice, int quantity)
     {
