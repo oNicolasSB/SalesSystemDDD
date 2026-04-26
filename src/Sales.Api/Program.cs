@@ -1,5 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using Sales.Api.Endpoints.Orders;
+using Sales.Infra.Extensions;
 using Sales.Infra.Fakes;
+using Sales.Infra.Persistence.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +14,10 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddFakeInfrastructure();
+// builder.Services.AddFakeInfrastructure();
+builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddApplication();
+builder.Services.AddFakeIntegrations();
 
 var app = builder.Build();
 
