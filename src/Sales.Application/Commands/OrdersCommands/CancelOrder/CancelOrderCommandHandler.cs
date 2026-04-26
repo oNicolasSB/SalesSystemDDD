@@ -13,7 +13,7 @@ public sealed class CancelOrderCommandHandler
         _orderRepository = orderRepository;
     }
 
-    public async Task<CancelOrderResultDto> Handle(CancelOrderCommand command, CancellationToken cancellationToken = default)
+    public async Task<CancelOrderResultDto> HandleAsync(CancelOrderCommand command, CancellationToken cancellationToken = default)
     {
         var order = await _orderRepository.GetByIdAsync(command.OrderId, cancellationToken);
 

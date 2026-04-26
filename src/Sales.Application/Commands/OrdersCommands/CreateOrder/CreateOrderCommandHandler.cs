@@ -21,7 +21,7 @@ public sealed class CreateOrderCommandHandler
         _clientAcl = clientAcl;
     }
 
-    public async Task<CreateOrderResultDto> Handle(CreateOrderCommand command, CancellationToken cancellationToken = default)
+    public async Task<CreateOrderResultDto> HandleAsync(CreateOrderCommand command, CancellationToken cancellationToken = default)
     {
         AddressDto? addressDto = await _clientGateway.GetAddressAsync(command.ClientId, command.AddressId, cancellationToken);
 
