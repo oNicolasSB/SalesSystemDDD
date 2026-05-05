@@ -74,23 +74,23 @@ public static class OrdersEndpoints
             }
         })).WithSummary("Get fake IDs for testing purposes");
 
-        group.MapGet("/", async (
-            IOrderRepository repository,
-            CancellationToken cancellationToken) =>
-        {
-            var orders = await repository.ListAllAsync(cancellationToken);
-            var result = orders.Select(o => new
-            {
-                o.Id,
-                o.OrderNumber,
-                o.ClientId,
-                o.TotalValue,
-                Status = o.OrderStatus.ToString(),
-                o.CreatedAt,
-                TotalItens = o.OrderItems.Count
-            });
-            return Results.Ok(result);
-        }).WithSummary("Get all orders");
+        // group.MapGet("/", async (
+        //     IOrderRepository repository,
+        //     CancellationToken cancellationToken) =>
+        // {
+        //     var orders = await repository.ListAllAsync(cancellationToken);
+        //     var result = orders.Select(o => new
+        //     {
+        //         o.Id,
+        //         o.OrderNumber,
+        //         o.ClientId,
+        //         o.TotalValue,
+        //         Status = o.OrderStatus.ToString(),
+        //         o.CreatedAt,
+        //         TotalItens = o.OrderItems.Count
+        //     });
+        //     return Results.Ok(result);
+        // }).WithSummary("Get all orders");
 
         group.MapGet("/{id:guid}", async (
             Guid id,

@@ -28,16 +28,6 @@ public sealed class OrderRepository : IOrderRepository
             .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
     }
 
-    public async Task<IReadOnlyList<Order>> ListAllAsync(CancellationToken cancellationToken = default)
-    {
-        return await _context.Orders
-            .Include(o => o.OrderItems)
-            .Include(o => o.Payments)
-            .AsSplitQuery()
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
-    }
-
     public async Task UpdateAsync(Order order, CancellationToken cancellationToken = default)
     {
         await _context.SaveChangesAsync(cancellationToken);
