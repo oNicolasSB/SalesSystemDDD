@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Sales.Application.Abstractions.Persistence;
 using Sales.Application.Commands.OrdersCommands.AddOrderItem;
 using Sales.Application.Commands.OrdersCommands.CancelOrder;
@@ -6,6 +7,10 @@ using Sales.Application.Commands.OrdersCommands.MarkAsDelivered;
 using Sales.Application.Commands.OrdersCommands.MarkAsInPreparation;
 using Sales.Application.Commands.OrdersCommands.MarkAsShipped;
 using Sales.Application.Commands.OrdersCommands.StartPayment;
+using Sales.Application.Queries.Orders.GetFullOrderById;
+using Sales.Application.Queries.Orders.ListOrdersByClientSummary;
+using Sales.Application.Queries.Orders.ListOrdersByPaymentStatus;
+using Sales.Application.Queries.Orders.ListOrdersSummary;
 using Sales.Domain.Common.Exceptions;
 using Sales.Domain.Orders.Enums;
 
@@ -74,73 +79,53 @@ public static class OrdersEndpoints
             }
         })).WithSummary("Get fake IDs for testing purposes");
 
-        // group.MapGet("/", async (
-        //     IOrderRepository repository,
-        //     CancellationToken cancellationToken) =>
-        // {
-        //     var orders = await repository.ListAllAsync(cancellationToken);
-        //     var result = orders.Select(o => new
-        //     {
-        //         o.Id,
-        //         o.OrderNumber,
-        //         o.ClientId,
-        //         o.TotalValue,
-        //         Status = o.OrderStatus.ToString(),
-        //         o.CreatedAt,
-        //         TotalItens = o.OrderItems.Count
-        //     });
-        //     return Results.Ok(result);
-        // }).WithSummary("Get all orders");
+        group.MapGet("/", async (
+            [FromServices] ListOrdersSummaryQueryHandler handler,
+            CancellationToken cancellationToken) =>
+        {
+            var result = await handler.HandleAsync(new ListOrdersSummaryQuery(), cancellationToken);
+            return Results.Ok(result);
+        }).WithSummary("Get all orders summarized");
 
         group.MapGet("/{id:guid}", async (
             Guid id,
-            IOrderRepository repository,
+            [FromServices] GetFullOrderByIdQueryHandler handler,
             CancellationToken cancellationToken) =>
         {
-            var order = await repository.GetByIdAsync(id, cancellationToken);
-            if (order is null)
+            var result = await handler.HandleAsync(new GetFullOrderByIdQuery(id), cancellationToken);
+            if (result is null)
             {
                 return Results.NotFound();
             }
-            var result = new
-            {
-                order.Id,
-                order.OrderNumber,
-                order.ClientId,
-                order.TotalValue,
-                Status = order.OrderStatus.ToString(),
-                order.CreatedAt,
-                order.UpdatedAt,
-                Address = new
-                {
-                    order.DeliveryAddress.Street,
-                    order.DeliveryAddress.Number,
-                    order.DeliveryAddress.Neighborhood,
-                    order.DeliveryAddress.State,
-                    order.DeliveryAddress.City
-
-                },
-                Items = order.OrderItems.Select(oi => new
-                {
-                    oi.Id,
-                    oi.ProductId,
-                    oi.ProductName,
-                    oi.Quantity,
-                    oi.UnitPrice,
-                    oi.TotalPrice
-                }),
-                payments = order.Payments.Select(p => new
-                {
-                    p.Id,
-                    Method = p.PaymentMethod.ToString(),
-                    Status = p.PaymentStatus.ToString(),
-                    p.Value,
-                    p.TransactionCode,
-                    p.PaidAt
-                })
-            };
             return Results.Ok(result);
-        }).WithSummary("Get an order by ID");
+        }).WithSummary("Get an detailed order by ID");
+
+        group.MapGet("/clients/{clientId:guid}", async (
+            Guid clientId,
+            [FromServices] ListOrdersByClientSummaryQueryHandler handler,
+            CancellationToken cancellationToken) =>
+        {
+            var result = await handler.HandleAsync(new ListOrdersByClientSummaryQuery(clientId), cancellationToken);
+            return Results.Ok(result);
+        }).WithSummary("Get all orders summarized for a specific client");
+
+        group.MapGet("/payments", async (
+            [FromQuery] PaymentStatus? paymentStatus,
+            [FromServices] ListOrdersByPaymentStatusQueryHandler handler,
+            CancellationToken cancellationToken) =>
+        {
+            if (paymentStatus is null)
+            {
+                return Results.BadRequest(new { error = "PaymentStatus query parameter is required." });
+            }
+            var result = await handler.HandleAsync(new ListOrdersByPaymentStatusQuery(paymentStatus.Value), cancellationToken);
+            return Results.Ok(result);
+        }).WithSummary("Get all orders filtered by payment status")
+        .WithDescription(
+            "The paymentStatus query parameter is required and should be one of the following values: \n" +
+            "Pending or 1\n" +
+            "Confirmed or 2\n" +
+            "Canceled or 5");
 
         group.MapPost("/", async (
             CreateOrderRequest request,
